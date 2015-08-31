@@ -26,3 +26,10 @@
 
 - name: Ensure the sites directory is exists
   file: name={{nginx_sites_dir}} state=directory
+
+- name: (Monit) Copy the nginx monit service file
+  template:
+    src: monit.nginx.conf.j2
+    dest: /etc/monit/conf.d/nginx
+  notify:
+    - monit restart

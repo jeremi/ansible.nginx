@@ -47,3 +47,4 @@ nginx_yum_pkg: nginx
 nginx_yum_enablerepo: nginx
 nginx_yum_disablerepo: no
 nginx_apt_use_repo: yes
+nginx_pid: "/var/run/nginx.pid"
