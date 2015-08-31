@@ -37,6 +37,13 @@ http {
 
     server_names_hash_bucket_size {{nginx_server_names_hash_bucket_size}};
 
+    log_format logstash '$http_host '
+                    '$remote_addr [$time_local] '
+                    '"$request" $status $body_bytes_sent '
+                    '"$http_referer" "$http_user_agent" '
+                    '$request_time '
+                    '$upstream_response_time';
+
     access_log {{nginx_access_log}};
     error_log {{nginx_error_log}};
 
