@@ -19,6 +19,18 @@
   htpasswd: path={{nginx_auth_file}} name={{item.name}} password={{item.password}}
   with_items: nginx_auth_users
 
+- name: install openssl
+  apt: pkg=openssl state=latest update_cache=yes
+  when: nginx_ssl
+
+- name: generate ssl forward secrecy key
+  command: openssl dhparam -out {{ nginx_ssl_forward_secrecy_key_path }} {{ nginx_ssl_forward_secrecy_key_length }} creates={{ nginx_ssl_forward_secrecy_key_path }}
+  when: nginx_ssl
+
+- name: check ssl forward secrecy key
+  file: path={{ nginx_ssl_forward_secrecy_key_path }} owner=root group=root mode=0600
+  when: nginx_ssl
+
 - name: Configure nginx
   template: src=nginx.conf.j2 dest={{nginx_dir}}/nginx.conf
   notify:
